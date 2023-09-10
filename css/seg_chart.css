@@ -1,0 +1,85 @@
+   #seg_chart >  svg {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+       #clicked {
+                    stroke-opacity: .5;
+              }
+/*          #unclicked {
+                    stroke-opacity: .05;
+              }*/
+          .seg_axis path,
+          .seg_axis line {
+              fill: none;
+              stroke: black;
+              shape-rendering: crispEdges;
+              margin-left:60px;
+          }
+
+          .seg_node text {
+  pointer-events: none;
+  text-shadow: 0 1px 0 #fff;
+  }
+
+.seg_link {
+  fill: none;
+  stroke: #000;
+  stroke-opacity: .05;
+  }
+
+.seg_link:hover {
+  stroke-opacity: .5;
+  }
+
+
+
+.row-fluid {
+  width: 100%;
+  *zoom: 1;
+}
+.row-fluid:before,
+.row-fluid:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.row-fluid:after {
+  clear: both;
+}
+.row-fluid [class*="span"] {
+  display: block;
+  width: 100%;
+  min-height: 30px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  margin-left: 2.127659574468085%;
+  *margin-left: 2.074468085106383%;
+}
+.row-fluid [class*="span"]:first-child {
+  margin-left: 0;
+}
+
+.innerText {
+    font-family: "Century Schoolbook";
+    font-size: 12px;
+    color: black;
+}
+
+    .span3 {
+                position: relative;  
+                top: -0px; 
+                left: -100px;
+                }
+          .span7 {
+                position: relative; 
+                left: 0px;
+                }
+          .span6 {
+                font-family: "Pontano Sans";
+                font-size: 24px;
+                color: black;
+                }

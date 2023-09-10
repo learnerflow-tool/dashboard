@@ -1,0 +1,243 @@
+#bubblechart > svg {
+  margin: 0px auto;
+  position: relative;
+}
+
+
+
+
+#hm > canvas{
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#hm {
+  position: relative;
+}
+
+
+#bubblechart .heatmap {
+    position: relative;
+    
+    width: 100%;
+    height: 100%;
+}
+
+#hm .heatmap-wrapper {
+    position: absolute;
+    width : 850px;
+    height: 200px;
+    margin: 0px auto;
+    -webkit-transition: .3s ease all;
+    -moz-transition: .3s ease all;
+    transition: .3s ease all;
+    opacity: .6;
+    border-bottom: 1px solid rgba(255, 0, 0, 0);
+}
+
+
+#svg_bc_heatmap > svg {
+  margin: 0px auto;
+  position: relative;
+}
+
+#map > svg {
+  margin: 0px auto;
+  position: relative;
+}
+
+
+
+
+#time_heatmap > svg {
+  //margin: 0px auto;
+  position: relative;
+}
+
+#svg_time_heatmap > svg {
+  margin: 0px auto;
+  position: relative;
+}
+
+
+.axisbc path,
+.axisbc line {
+    fill: none;
+    stroke: #eee;
+    shape-rendering: crispEdges;
+}
+ 
+.axisbc text {
+    font-family: 'Arial Narrow';
+    font-size: 10px;
+    //font-weight: 900;
+}
+
+.axishm text {
+    font-family: sans-serif;
+    font-size:9px;
+}
+
+
+.module_show_annot {
+    font-family: 'Arial Narrow';
+    font-size:11px;
+}
+
+.module_text {
+    padding-left: 5px;
+}
+ 
+.loading {
+    font-family: sans-serif;
+    font-size: 15px;
+}
+ 
+.circle {
+    fill: #222;
+}
+
+div.tooltip_bc { 
+    position: absolute;     
+    text-align: center;     
+    width: 160px;          
+    height: 100px;         
+    padding: 2px;      
+    font: 9px sans-serif;     
+    border-radius: 8px;     
+    pointer-events: none; 
+    border-width:1px;
+    border-style:solid;
+    border-color:lightgrey;  
+    background: white;  
+}
+
+div.tooltip_bc > svg{
+  margin-top: 12px;
+}
+
+#tip_id{
+  opacity: 1;
+  border:solid 0px grey;  
+  background: white; 
+  width : 60px;
+  z-index: 9999;
+  color: grey;
+  line-height: 12px;
+  padding-right: 2px;
+
+  font: bold 8px Sans-Serif;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: #369;
+  color: #fff;
+  padding: 1px 3px;
+  margin: 0 0 10px 0;
+  line-height: 12px;
+}
+
+ // text-decoration: underline overline;
+
+}
+
+.card{
+
+      padding: 10px;
+      fill: white;
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;
+      border-radius: 10px;
+      -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+      -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+      box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+      pointer-events: none;
+      border: grey solid 1px;
+}
+
+.card.hidden {
+      display: none;
+}
+
+ #popup_bc {
+      position: absolute;
+      width: auto; // 150px;
+      height: auto ; //200px; //auto
+      padding: 10px;
+      background-color: white;
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;
+      border-radius: 10px;
+      -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+      -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+      box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+      pointer-events: none;
+      border: grey solid 1px;
+      z-index: 999;
+    }
+
+    #popup_bc.hidden {
+      display: none;
+    }
+
+    #popup_bc p {
+      margin: 0;
+      font-family: Futura;
+      font-size: 16px;
+      line-height: 20px;
+    }
+
+#svg_bc_heatmap  rect.bordered {
+        stroke: #E6E6E6;
+        stroke-width:2px;   
+      }
+
+#svg_time_heatmap  rect.bordered {
+        stroke: #E6E6E6;
+        stroke-width:2px;   
+      }
+
+
+#time_heatmap rect.bordered {
+        stroke: #E6E6E6;
+     //   stroke-width:2px;   
+      }
+
+
+
+ #popup_time_heatmap {
+      position: absolute;
+      width: auto; // 150px;
+      height: auto ; //200px; //auto
+      padding: 10px;
+      background-color: white;
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;
+      border-radius: 10px;
+      -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+      -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+      box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+      pointer-events: none;
+      border: grey solid 1px;
+      z-index: 999;
+    }
+
+    #popup_time_heatmap.hidden {
+      display: none;
+    }
+
+    #popup_time_heatmap p {
+      margin: 0;
+      font-family: Futura;
+      font-size: 12px;
+      line-height: 20px;
+    }
+
+
+.grid-line {
+      stroke: black;
+      opacity: 0.2;
+      stroke-dasharray: 1,2;
+    }
+
+

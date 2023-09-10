@@ -1,0 +1,30 @@
+#date_chart > canvas, #date_chart >  svg  {
+  margin:5px 0px 0px 5px;
+  position: relative; 
+}
+
+.bottom {
+ // top: 160px;
+  position: relative;
+}
+
+.brushd .extent {
+  stroke: rgb(108, 122, 168);
+  fill: rgb(68, 104, 168);
+  fill-opacity: .25;
+  shape-rendering: crispEdges;
+}
+ 
+.brush .resize path {
+  fill: #eee;
+  stroke: #666;
+}
+ 
+.bar {
+  fill: #88bbee;
+  stroke: #336699;
+}
+ 
+.bar.selected {
+  fill: #369;
+}

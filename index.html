@@ -1,0 +1,498 @@
+<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>LearnerFlow Analytics</title>
+
+		<!-- Support Libraries -->
+		<script type="text/javascript" src="scripts/jquery-1.8.0.min.js"></script>
+		<script type="text/javascript" src="scripts/jquery-ui-1.9.1.custom.min.js"></script>
+		<script type="text/javascript" src="scripts/json2.js"></script>
+		<script type="text/javascript" src="scripts/jqcloud-0.2.9.min.js"></script>
+		<script type="text/javascript" src="scripts/external.js"></script>
+
+		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+		<script>
+	    	var d3v2 = window.d3;
+	    	window.d3 = null;
+		</script>
+		<script type="text/javascript" src="scripts/d3/d3.v2.js"></script> 
+
+		<!-- Libraries for Charts -->
+		<script type="text/javascript" src="scripts/chart/donutchart.js"></script>
+		<script type="text/javascript" src="scripts/controller.js"></script>
+		<script type="text/javascript" src="scripts/intro.js"></script>
+		<script type="text/javascript" src="scripts/d3/topicflow.js"></script>
+		<script type="text/javascript" src="scripts/Tweet.js"></script>
+		<script type="text/javascript" src="scripts/Bin.js"></script>
+		<script type="text/javascript" src="scripts/TopicModel.js"></script>
+		<script type="text/javascript" src="scripts/TopicSimilarityMap.js"></script>
+
+		<!-- Data Sources -->
+		<script src="data/Workshop2018/Annotation.json"></script>
+		<script src="data/Workshop2018/Bins.json"></script>
+		<script src ="data/Workshop2018/FlowData.json"></script>
+		<script src ="data/Workshop2018/AddOnData.json"></script>
+
+		<script src="data/COURSE/Annotation.json"></script>
+		<script src="data/COURSE/Bins.json"></script>
+		<script src ="data/COURSE/FlowData.json"></script>
+		<script src ="data/COURSE/AddOnData.json"></script> 
+
+		<!-- CSS Files -->
+		<link type="text/css" rel="stylesheet" href="css/960grid.css">
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.0/themes/smoothness/jquery-ui.css" />
+		<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,600' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Josefin+Slab:100,400' rel='stylesheet' type='text/css'>
+		<link type="text/css" rel="stylesheet" href="css/TopicFlow.css">
+		<link type="text/css" rel="stylesheet" href="css/jqcloud.css" />
+		<link rel="stylesheet" type="text/css" href="css/parallel.css" />
+		<link rel="stylesheet" type="text/css" href="css/boxplot.css" />
+		<link rel="stylesheet" type="text/css" href="css/bubblechart.css" >
+		<link rel="stylesheet" type="text/css" href="css/donutchart.css" /> 
+		<link rel="stylesheet" type="text/css" href="css/introjs.css" /> 
+		<link rel="stylesheet" type="text/css" href="css/distrochart.css" />
+		<link href="css/dateselector.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="css/seg_chart.css" />
+	</head>
+
+<body>
+	<!-- LOADING DIV -->
+	<div id="loader" class="loader" style="display:none">
+		<img src="images/ajax-loader.gif"></img>
+	</div>
+
+	<!-- GREYED BACKGROUND -->
+	<div id="dataset-popup" class="dataset-popup"> </div>
+
+	<!-- DATASET SELECTOR DIV -->
+	<div class="absolute-div">
+		<div id="selectbox_datasets">	
+			<div id="title" class="panel_name">Select a dataset... <span id="close_select" class="title_link">Close</span></div>
+			<ul id="popup_data_selector">
+				<li id="workshop2018"><a href="#">DataViz Workshop 2018</a></li>
+				<li id="ENG1003"><a href="#">ENG1003_S1_2019</a></li>
+				<!--<li id="load_new"><a href="#">Load new...</a></li>-->
+			</ul>
+		</div>
+	</div>
+
+	<!-- ABOUT DIV -->
+	<div class="absolute-div">
+		<div id="about-popup" style="display:none;">	
+			<div id="title" class="panel_name">About UserFlow <span id="close_about" class="title_link">Close</span></div>
+			<div id="about-div" class="panel_contents">
+				LearnerFlow is a tool that visualizes the trajectory of students in content authoring systems. It provides an interface to organicallly explore learner trajectory, annotation traces and reading time to help educators adapt teaching material and approaches in response to students reported experiences.<br />
+				<br />
+				This tool is part of the PhD project of Shaveen Singh, class of 2016-2019 from the Faculty of IT at Monash University. Shaveen is supervised by Prof. Bernd Meyer and Dr. Michael Wybrow.<br />
+
+				More information:
+				<ul>
+					<li> <a href="http://shaveensingh.com" target="_blank">My HomePage</a> </li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- TOOLTIP DIV -->
+	<div id="tt" style="display:none;">
+		<div id="tttop"> </div>
+		<div id="ttcont"> </div>
+		<div id="ttbot"> </div>
+	</div>
+
+	<!-- TOPIC SIMILARITY DIV -->
+	<div id="similarity_holder" style="display:none;">
+		<div id="topicSimilarity">
+			<div class="similarity_panel"><div class="title" id="t1_title"></div><div id="t1"></div></div>
+			<div class="similarity_panel"><div class="title" id="t2_title"></div><div id="t2"></div></div>
+		</div>
+	</div>
+
+
+<!-- MAIN PAGE DIV -->
+	<div class="container_12">
+		<!-- HEADER - Tour, Dataset, About-->
+		<div class="header">
+			<span class="grid_8 alpha" id="product_title"><span class="dark">Stud</span><span class="light">Flow</span><span id="dataset_name"></span></span>
+			<span class="grid_x omega" id="data_selector_panel">
+				<button id= "intro_button" class="intro_button" type="button" autofocus onclick="javascript:introJs().setOption('showProgress', true).start();">Start Tour!</button>
+				<button id="data_selector">Change Dataset</button>
+				<button id="about">About LearnerFlow</button>
+			</span>
+
+<span class="grid_8 alpha"  ><button id="btn2" title="Expand/Collapse Panel" onClick='$("#filter_panel").slideToggle();'> ▲▼</button>⇤ Click to Filter : [Date Range], [Student Data] & [Annotation Category] ↯</span>
+
+		</div>
+		<div class="clear"></div>
+
+
+
+		<div class="main_panel" id="filter_panel">
+
+			<div class="grid_3 alpha viz_panel" id="topic_list_panel">
+				<!--	DATE FILTER -->
+			    <div id="filter_holder">
+					<div class="2u chart-wrapper" data-step="1" data-intro="Histogram showing the number of interaction over a period of time. Drag and select to view detailed data for a particular time range" style="font-weight: normal" data-position="right" id="intro_dateSelector" style="background-color: #33CC99; height: 60px;">
+						<div class="panel_name">
+							<span class="panel_title">Date Range Selector</span><span id="reset_dateRange" class="title_link">Reset Filters</span>
+						</div>
+						<div class="panel_contents" style="height: 230px">
+							<span style="font-family:sans-serif;font-size:10px;font-style: italic;">Selected Date Range: </span><input type="text" id="selection" size="24"  value="ALL" style="margin-top: 20px;font-family:sans-serif;font-size:10px;text-align: center;">
+	  						<div id="date_chart"></div>
+						</div>
+					</div>
+			    </div>
+
+			</div>
+		
+
+
+		<div class="grid_7 viz_panel" id="flow_viz_panel">
+		  	<!--	PARALLEL COORDINATES-->
+		  	<div class="2u chart-wrapper"  data-step="4" data-intro="Student Data displayed using Parallel Coordinates. Desired ranges can be selected by brushing over the respective axis. Filter Panel on the right supports filtering records by student group or locate using userid."style="font-weight: normal" data-position="left" id="intro_paraCoord">
+
+				<div class="panel_name">
+					
+					<span class="panel_title">Student Background and Performance Information</span>
+				</div>
+				<div class="panel_contents">
+					<div id="para_coord">
+						<div id="header">
+				    		<button title="Zoom in on selected data" id="keep-data" disabled="disabled">Keep</button>
+				    		<button title="Remove selected data" id="exclude-data" disabled="disabled">Exclude</button>
+				    		<button title="Export data as CSV" id="export-data">Export</button>
+    						<div class="controls">
+      							<strong id="selected-count"></strong>/<strong id="rendered-count"></strong>
+      							<div class="fillbar">
+      								<div id="selected-bar">
+      									<div id="rendered-bar">&nbsp;</div>
+      								</div>
+      							</div>Lines at <strong id="opacity"></strong> opacity.
+      							<span class="settings">
+        				 		<button id="hide-ticks">Hide Ticks</button>
+        				 		<button id="show-ticks" disabled="disabled">Show Ticks</button>
+        						 <div class="popup" onclick="myFunction()"> |?|
+ 			 						<span class="popuptext" id="myPopup">
+ 			 						<div class="little-box"> <h3>Controls</h3>
+							        	<p>
+								          <strong>Brush</strong>: Drag vertically along an axis.<br/>
+								          <strong>Remove Brush</strong>: Tap the axis background.<br/>
+								          <strong>Reorder Axes</strong>: Drag a label horizontally.<br/>
+								          <strong>Invert Axis</strong>: Tap an axis label.<br/>
+								          <strong>Remove Axis</strong>: Drag axis label to the left edge.<br/>
+								        </p>
+								        
+								        <script>
+											// When the user clicks on div, open the popup
+										function myFunction() {
+										  	var popup = document.getElementById("myPopup");
+										 	 popup.classList.toggle("show");
+											}
+										</script>
+      								</div>
+									</span>
+								 </div>
+      							</span>
+      		
+    						</div>
+    						<div style="clear:both;"></div>
+  						</div>
+  					
+		  				<div id="chart">
+						    <canvas id="background"></canvas>
+						    <canvas id="foreground"></canvas>
+						    <canvas id="highlight"></canvas>
+						
+					      <span class="third">
+					     	<h3>Student Groups</h3> <p id="legend"> </p>
+					      	<h3>Sample student(s) <input type="text" id="search" placeholder="Search Student..." style="width:50%;" /> </h3><p id="food-list"></p>
+					      </span>
+	  					</div>
+					</div>
+				</div>
+		  </div> <!--	Close intro -- PARALLEL COORDINATED -->
+
+		</div>
+
+		<div class="grid_2 omega viz_panel" id="right_panel">
+
+		    	<!--	ANNOTATION TYPE FILTER -->
+				<div class="2u chart-wrapper" data-step="2" data-intro="Annotation types displayed on a donut chart. Hover over the slices for tool tips. Select to view detailed data for a particular annotation type. Multiple selections are permitted."style="font-weight: normal" data-position="right" id="intro_annotType">
+		       		<div class="panel_name" id="annot_Radar" >
+		       			<span class="panel_title" id="annot_info">Annotation Types </span><span id="reset_annot_filters" class="title_link">Reset > </span>
+		       		</div>
+					<div class="panel_contents">
+				 		<div id="donut-charts"></div> 
+				 		<div id="donut-legend" >
+				 			<table id = "donut-legend" class = "module_show_annot">
+				 				<tr><td><span class="imdonutdot"></span> Important </td><td> <span class="cndonutdot"></span> Confusing</td><td><span class="erdonutdot"></span> Errata</td>
+				 				</tr>
+				 				<tr><td><span class="cmdonutdot"></span> Comment</td><td><span class="hldonutdot"></span> Help</td><td> <span class="indonutdot"></span> Interesting</td>
+				 				</tr>
+				 			</table>
+
+				 		</div> 
+					</div>
+				</div>	
+		</div>	  		
+		
+
+
+
+</div>
+
+<div class="clear"></div>
+		<!-- Second main -->
+		
+	  	<div class="main_panel">
+	
+
+
+		<div class="grid_6 viz_panel" id="flow_viz_panel">
+		 
+
+		  <!--	FLOW DATA-->
+		  <div class="2u chart-wrapper"  data-step="5" data-intro="Widget Displays student pathway through the syllabi. Filter options are available to view specific stats. Hover for tool tips. Enable heatmap to show - reading time & location of annotations."style="font-weight: normal" data-position="left" id="intro_flowData">
+			<div class="panel_name" ><button id="3" title="Expand/Collapse Panel" onClick='$(".flow_tips").slideToggle(); $("#visual").slideToggle();'> ▲▼ </button>  
+				<span class="panel_title">Student Trajectory through the Learning Modules </span><span class="title_link" id="view_all">Deselect Section</span> <span id="reset_filters" class="title_link">Reset Filters</span>
+			</div>
+			<div class="panel_contents" id = "vis_aul" >
+				<div class = "flow_tips">
+					<fieldset class = "flow_filters">
+						<legend>FLOW SELECTION:</legend>
+						<span><input type="checkbox" class="flow_all" value="all" checked="yes"/> <span class="flow_all flow_option1">Select/Unselect All</span></span><br />
+						<div class="flow_type_options">
+							<span class="intended flow_option1"> <input type="checkbox" class="topic_type" value="intended" checked="yes"/> Intended</span>
+							<span class="unintended flow_option1"> <input type="checkbox" class="topic_type" value="unintended" checked="yes"/> Unintended</span> <br />
+							<span class="forward flow_option1"> <input type="checkbox" class="topic_type" value="forward" checked="yes"/> Forward</span>
+							<span class="backward flow_option1"> <input type="checkbox" class="topic_type" value="backward" checked="yes"/> Backward</span>
+
+						</div>
+					</fieldset>
+
+					<fieldset class="path_filters"> 
+						<legend>PATH FILTERS :</legend>
+						<label for="similarity_weight">Flow Volume: </label> <span id="similarity_weight"></span>
+						<div id="similarity_weight_slider"></div>
+						<label for="similarity_distance">Flow PROXIMITY: </label> <span id="similarity_distance"></span>
+						<div id="similarity_distance_slider"></div>
+					</fieldset>
+
+					<fieldset class="student_groups"> 
+						<legend>STUDENT GROUPS :</legend>
+      					<p id="legend"></p>
+					</fieldset>
+
+					<fieldset class="module_filters"> 
+						<legend>QUICK FILTERS FOR INSTRUCTORS :</legend>
+						<input type="checkbox" class="all_unintended_flow" /> <span class="module_filters_text">Identify unexpected student pathways <br \> <i> [Use "Flow Selection" options to explore further] </i></span>
+						<br />
+						<input type="checkbox" class="module_type_stress" /> <span class="module_filters_text">Highlight learning modules subject to large jumps <br \> <i> [Select module to explore further] </i></span>
+					
+					</fieldset>
+
+					<div>
+					  <fieldset class="step_filters"> 
+						<legend>TRACK PATH</legend>
+						<button name="inwardButton" title="Inward Flow" type="button" value="IN" onclick="TraceLeftFlow()" ><span>⇥ IN</span></button>
+	           			<button name="outwardButton" title="Outward Flow"  type="button" value="OUT" onclick="TraceRightFlow()" > <span>OUT ⇥</span></button>
+					  </fieldset>
+						
+					<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+					  <fieldset class="step_filters"> 
+						<legend>HEATMAP</legend>
+						<button name="timeHeatmap" title="Show Time Heatmap" type="button" onclick="showTimeHeatMapToolTip()" > <i class="btnIcon fa fa-clock-o"></i> <span> TM</span></button>
+						<button name="annotationHeatmap" title="Show Annotation Heatmap" type="button" onclick="showAnnotationsHeatMapToolTip()" ><i class="btnIcon fa fa-pencil-square-o"></i> <span>AN</span></button> 
+					  </fieldset>
+					</div>
+				</div>
+
+				<div id = "visual"> 
+ 				<button onclick="drawMatrixChart();">Matrix View</button>
+
+
+					<div id="flow_viz"> 
+
+						<div id="hmap_node" >
+	   						<p><span id="id_node"></span></p>
+	   						<p><span id="id_info"></span></p>
+	   						<span id="node_heatmap"></span>
+	  					</div>
+					 </div>
+
+					<fieldset class="node_filters"> 
+						<span id = "node_filter"  > </span>
+						<legend>NODE SIZE</legend>
+						<span id="topic_size"></span>
+						<div id="topic_size_slider"></div>
+					</fieldset>		
+				</div>		
+			</div>
+		  </div>
+
+		  <!--	COURSE OVERVIEW BOXPLOT AND BUBBLE CHART -->
+
+
+
+		    <div class="panel_name"><button id="1" title="Expand/Collapse Panel" onClick='$("#mod_summary").slideToggle();'>▲▼ </button> <span class="panel_title" style= "padding-left: 20px"> BREAKDOWN REPORT - GRANULAR SCROLL, TIME AND ANNOTATION OVERVIEW</span> </div>
+			<div class="panel_contents">
+				<div id="mod_summary">
+		        	<div id="popup_bc" class="hidden">
+		    			<!-- <p><strong>Percentage Value</strong></p> -->
+		   				<p><span id="value"></span></p>
+		   				<p><span id="visual_bc"></span></p>
+		   				<span id="svg_bc_heatmap"></span>
+		  			</div>
+
+		  			<div class="2u chart-wrapper"  data-step="6" data-intro="Interactive heatmap showing average reading time (in mins) for each module. The cells are clickable and links to the flow diagram."style="font-weight: normal" data-position="left" id="intro_heatmap">
+		            	<div id="time_heatmap"><span class="module_show_annot" style="padding-left: 20px; font-weight: bold;"> Page Scroll Heatmap (of each Learning Module)</span></div> <span class="module_show_annot" style="font-weight: bold; padding-left: 15px" >Distributions: </span>
+
+				<div class="chart-options">
+					<!-- <button onclick=";">Show Annotation Distibution</button>
+			       	<button onclick="alert('Time Spent')">Time Spent</button>  
+			       	<button onclick="alert('Engagment')">Engagement Segmentation</button> --> 
+			       	<input type="radio" name="radgrpChartCriteria" id= "by_Annot" value="by_Annot" checked > <span class="module_show_annot"> Show Annotation Distribution  </span>
+			       	<input type="radio" name="radgrpChartCriteria" id= "by_Time" value="by_Time" > <span class="module_show_annot"> Show Time Distribution  </span>
+			 <!--      	<input type="radio" name="radgrpChartCriteria" id= "by_Seg" value="by_Seg" > <span class="module_show_annot"> Engagement Segment  </span> -->
+  	
+				</div>
+		</div>
+
+
+ 		<div id = "chart_Criteria">
+
+ 			<div id = "AnnotChart">
+ 				<div class="2u chart-wrapper"  data-step="7" data-intro="Bubble chart showing the breakdown of annotations by category over the syllabi. Hover to see granular data regarding the precise location of the annotation."style="font-weight: normal" data-position="left" id="intro_bubblechart">
+ 					<p id="chart_title"class="chart-options" style="padding-left: 300px"> Distribution of Annotations over modules by: <b> Category </b> <br/> <span class="module_show_annot">(Hover over the bubbles to see location of annotation on the page minimap) </span> </p>
+ 					<div id="bubblechart"> </div>
+ 				</div>
+		            	<div id="bubbletip"><span id="tip_id">Module </span></div> 
+
+		            	 <div class="chart-options">
+						    <p class="module_show_annot module_text" >Show Annotations by: </p>
+						    <button onclick="d3.select('#bubblechart').select('svg').remove(); drawBubbleChartNEW(1); document.getElementById('chart_title').innerHTML = 'Distribution of Annotations over modules by: <b> Category </b>';">Category</button>
+						    <button onclick="d3.select('#bubblechart').select('svg').remove(); drawBubbleChartNEW(2);document.getElementById('chart_title').innerHTML = 'Distribution of Annotations over modules by: <b> Lecture Stream </b>';">Lecture Stream</button>
+						    <button onclick="d3.select('#bubblechart').select('svg').remove(); drawBubbleChartNEW(3);document.getElementById('chart_title').innerHTML = 'Distribution of Annotations over modules by: <b> Grade </b>';">Grade</button>
+						    <button onclick="d3.select('#bubblechart').select('svg').remove(); drawBubbleChartNEW(4);document.getElementById('chart_title').innerHTML = 'Distribution of Annotations over modules by: <b> Remedial Attendence </b>';">Remedial Attendees</button>
+						     <input type="radio" name="radgrpCriteria" id= "by_studCount" value="studCount" checked > <span class="module_show_annot"> By Student Count?  </span>
+  							 <input type="radio" name="radgrpCriteria" id= "by_annotFreq" value="annotFreq"><span class="module_show_annot"> By Annotation Freq.?  </span>
+
+						    <input type="checkbox" id= "chk_show_annot"  /> <span class="module_show_annot"> Show Word Cloud (on hover)?  </span>
+						</div> 
+
+ 			</div>
+
+ 			<div id = "BoxplotChart" style="display:none">
+ 				<div class="2u chart-wrapper"  data-step="8" data-intro="Boxplot showing the distribution of reading time (in mins) over the syllabi. Hover to see granular data regarding time spent on each quadrant of the page."style="font-weight: normal" data-position="left" id="intro_boxplot">
+ 					<p id="boxplot_title"class="chart-options" style="padding-left: 300px"> Distribution of Time spent on each Learning Module </p>
+ 				
+ 					<div id="mod_boxplot" >                     
+					<div class="chart-wrapperD" id="chart-distro1"></div>
+				</div>
+			    	<span class="chart-options"> 
+			    	<p class="module_show_annot module_text" >Show : </p>
+			    	<button onclick="chart1.dataPlots.change({showLines:false}); chart1.AreaPlot.hide(); chart1.violinPlots.hide();chart1.boxPlots.show({reset:true});chart1.notchBoxes.hide();chart1.dataPlots.change({showPlot:false,showBeanLines:false})">Box Plot</button>
+			    	<button onclick="chart1.dataPlots.change({showLines:false}); chart1.AreaPlot.show({reset:true});chart1.violinPlots.hide(); chart1.notchBoxes.hide(); chart1.boxPlots.hide(); chart1.dataPlots.change({showPlot:false,showBeanLines:false}); chart1.AreaPlot.change({showLines:['quartile1', 'quartile3']});">Area Plot</button>
+			    	<button onclick="chart1.dataPlots.change({showLines:false}); chart1.AreaPlot.hide(); chart1.violinPlots.hide();chart1.notchBoxes.show({reset:true});chart1.boxPlots.show({reset:true, showBox:false,showOutliers:true,boxWidth:20,scatterOutliers:true});chart1.dataPlots.change({showPlot:false,showBeanLines:false})">Notched Box Plot</button>
+			    	<button onclick="chart1.dataPlots.change({showLines:false}); chart1.AreaPlot.hide(); chart1.violinPlots.hide();chart1.dataPlots.show({showPlot:true, plotType:40, showBeanLines:false,colors:null});chart1.notchBoxes.hide();chart1.boxPlots.hide();">Scatter Plot</button>  
+			    	<button onclick="if(chart1.dataPlots.options.showLines){chart1.dataPlots.change({showLines:false});} else {chart1.dataPlots.change({showLines:['readingTime', 'median']});}"> Overlay Median & Expected Time</button>
+			   		 <button onclick="chart1.AreaPlot.show({reset:true});chart1.violinPlots.hide(); chart1.notchBoxes.hide(); chart1.boxPlots.hide(); chart1.dataPlots.change({showPlot:false,showBeanLines:false});  chart1.dataPlots.change({showLines:['readingTime', 'median']});">Median & Expected Time Only</button>
+			   		 </span>
+				</div>
+
+ 			</div>
+
+ 			<div id = "EngageChart" style="display:none">
+
+ 				<div class="2u chart-wrapper"  data-step="9" data-intro="Bubble chart showing the breakdown of annotations by category over the syllabi. Hover to see granular data regarding the precise location of the annotation."style="font-weight: normal" data-position="left" id="intro_bubblechart">
+ 					<p> Engagement Sankey </p>
+           		    <div class="row-fluid">
+       			 		<div class="span12" align="center">
+	          				<div id="seg_chart">
+					            <p id="clustable" style="margin-bottom:-20px;margin-top:45px;margin-left:0px">Mouse over a node to see cluster information</p>
+					            <p id="clusdesc" class="span3 offset5" style="margin-bottom:-30px;margin-top:45px"></p>
+					            <p id="instructions" class="span3 offset8" style="margin-bottom:-30px;margin-top:45px"></p>
+					          </div>
+					            <p id="joined" style="margin-bottom:-10px;margin-top:0px;margin-left:-800px"></p>
+					            <p id="depart" style="margin-bottom:-15px;margin-top:-20px;margin-left:800px"></p>
+					            <p id="pcount"  style="margin-bottom:-10px;margin-top:-20px;margin-left:0px"></p>
+					            <p id="onclick" style="margin-bottom:-10px;margin-top:20px;margin-left:0px"></p>
+					     </div>
+    				</div>  
+
+ 				</div>
+
+ 			</div>
+
+ 		</div>
+
+
+
+
+	   </div>
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+		</div>
+
+
+
+
+	   		<div class="grid_3 omega viz_panel" id="topic_list_panel">
+		
+
+		  	<!--	ANNOTATION LISTING-->
+		  		<div class="2u chart-wrapper"  data-step="3" data-intro="Annotation Listing ► Widget Displays the listing of annotations currently selected in analysis. Click annotation to read the post or to directly access the context in the teaching document."style="font-weight: normal" data-position="right" id="intro_annotListing">
+					<div class="panel_name" id="tweet_list_title">Annotation Messages</div>
+						<div class="panel_contents">
+							<div id="tweet_list"></div>
+						</div>
+					</div>
+
+		  	<!--	Fake DIV created to hide the search panel -->
+				<div style = "visibility: hidden"> 
+					<div class="panel_name">
+						<span class="panel_title" id="topics_title">Section</span>
+					</div>
+					<div class="panel_contents">
+						<center><input type="text" title="Search for word..." id="topic_searchbox"  /></center>
+					</div>
+				</div>
+			</div>
+
+
+
+	  </div>
+
+
+
+ </body>
+</html>
+
+	<script type="text/javascript" src="scripts/underscore.js"></script>
+	<script type="text/javascript" src="scripts/sylvester.js"></script>
+	<script type="text/javascript" src="scripts/chart/parallel_coord.js"></script>
+	<script type="text/javascript" src="scripts/chart/boxplot.js"></script>
+	<script type="text/javascript" src="scripts/chart/bubblechart.js"></script>
+	<!--<script type="text/javascript" src="scripts/d3/RadarChart.js"></script>  -->
+	<script type="text/javascript" src="scripts/moment.min.js"></script>
+	<script type="text/javascript" src="scripts/chart/dateselect.js"></script>
+	<script type="text/javascript" src="scripts/chart/distrochart.js"></script>
+	<script type="text/javascript" src="scripts/chart/cloud.js"></script>
+	<script type="text/javascript" src="scripts/chart/heatmap.min.js"></script>
+	<!-- <script type="text/javascript" src="scripts/chart/sankey_org.js"></script>
+	<script type="text/javascript" src="scripts/chart/linkremoval.js"></script>  -->
+
+

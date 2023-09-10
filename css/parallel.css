@@ -1,0 +1,285 @@
+
+a {
+  text-decoration: none;
+}
+
+#wrap {
+  padding: 0 3.5%;
+}
+
+#chart > svg {
+  font-family: Ubuntu, Tahoma, Helvetica, sans-serif;
+}
+#chart > canvas, svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#chart {
+  position: relative;
+}
+
+.brush rect.extent {
+  fill: #8888889e; //rgba(100,100,100,0.15);
+  stroke: #cccccc;
+}
+
+.brush:hover rect.extent {
+  stroke: #222;
+  stroke-dasharray: 5,5;
+}
+.brush rect.extent:hover {
+  stroke-dasharray: none;
+}
+.resize rect {
+  fill: none;
+}
+.background {
+  fill: none;
+}
+
+.axisp line, .axisp path {
+  fill: none;
+  stroke: #777;
+  stroke-width: 1;
+}
+
+.axisp .tick {
+  width: 200px;
+}
+.axisp text {
+  fill: #111;
+  text-anchor: right;
+  font-size: 11px;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+}
+.axisp text.label {
+  font-size: 11px;
+  cursor: move;
+  padding-bottom: 15px;
+}
+
+.quarter, .third, .half {
+  float: left;
+  font-size: 11px;
+}
+.quarter {
+  width: 23%;
+  margin: 0 1%;
+}
+.third {
+  width: 25.3%;
+  margin-left: 85%;
+  z-index: 999;
+}
+.half {
+  width: 48%;
+  margin: 0 1%;
+}
+h3 {
+  margin: 12px 0 9px;
+}
+h3 small {
+  color: #888;
+  font-weight: normal;
+}
+p {
+  margin: 0.6em 0;
+}
+small {
+  line-height: 1.2em;
+}
+button[disabled=disabled] {
+  color: #555 !important;
+  opacity: 0.4;
+}
+.settings button[disabled=disabled] {
+  display: none;
+}
+button#keep-data,
+button#exclude-data {
+  font-weight:bold
+}
+button#keep-data:hover {
+  color: #080;
+}
+button#exclude-data:hover {
+  color: #900;
+}
+#food-list {
+  width: 100%;
+
+  overflow-x: auto;
+  overflow-y: auto;
+  white-space: nowrap;
+}
+#legend {
+  text-align: left;
+  overflow-y: auto;
+  padding-left: 1px;
+  border-left: 1px solid rgba(140,140,140,0.5);
+  height: 50px;
+
+  // Again, this is where the magic happens
+  -webkit-overflow-scrolling: touch;
+}
+.row {
+  cursor: pointer;
+}
+.row:hover {
+  font-size: 12px;
+  line-height: 1.3em;
+}
+.off {
+  color: #999;
+}
+.color-block, .color-bar {
+  display: inline-block;
+  height: 8px;
+  width: 8px;
+  margin: 1px 4px 1px 0px;
+}
+#rendered-bar,
+#selected-bar {
+  width:0%;
+  font-weight: bold;
+}
+#rendered-bar {
+  background: #888;
+  border-right: 1px solid #666;
+}
+#selected-bar {
+  background: rgba(160,160,160,0.5);
+  border-right: 1px solid #999;
+}
+.fillbar {
+  height: 12px;
+  line-height: 12px;
+  border:1px solid rgba(120,120,120,0.5);
+  width: 120px;
+  display: inline-block;
+}
+.little-box {
+  width: 100%;
+  float: left;
+}
+#header {
+  border-bottom: 1px solid rgba(100,100,100,0.35);
+  background: #e2e2e2;
+  padding: 6px 12px 4px;
+  line-height: 16px;
+  font-size:  12px;
+}
+
+#header h1 {
+  display: inline-block;
+  margin: 0px 14px 0 0;
+}
+#header button {
+  vertical-align: top;
+}
+.controls {
+  float: right;
+  height: 16px;
+  line-height: 16px;
+}
+
+/* Scrollbars */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+ 
+::-webkit-scrollbar-track {
+  background: #ddd;
+  border-radius: 12px;
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: #b5b5b5;
+  border-radius: 12px;
+}
+
+/* Popup container - can be anything you want */
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+  visibility: hidden;
+  width: 250px;
+  background-color: #555;
+  color: #fff;
+  text-align: left;
+  border-radius: 6px;
+  padding: 8px;
+  position: absolute;
+  z-index: 1;
+  bottom: -150%;
+  right: 50%;
+  right-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: -40%;
+  right: 150%;
+  margin-right: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;} 
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+
+
+
+
+
+.axisb line, .axisb path {
+  fill: none;
+  stroke: #777;
+  stroke-width: 1;
+}
+
+.axisb .tick {
+  width: 200px;
+}
+.axisb text {
+  fill: #111;
+  text-anchor: right;
+  font-size: 11px;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+}
+.axisb text.label {
+  font-size: 11px;
+  cursor: move;
+  padding-bottom: 15px;
+}

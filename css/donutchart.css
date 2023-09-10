@@ -1,0 +1,175 @@
+
+#donut-charts {
+  //display: block;
+  height: 190px;
+  top: 10px;
+  position : relative;
+
+}
+
+#donut-charts > svg{
+
+    padding: 0px;
+    width: 100%;
+    height: 185px;
+    margin-top: 0px;
+    margin-left: 0px;
+
+  }
+
+  #donut-legend > table{
+
+    padding: 0px;
+    width: 100%;
+    height: 40px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    border: 1px #ccc solid;
+
+  }
+
+  #donut-legend > table , td{
+
+    text-align: left;
+    border: 1px #ccc solid;
+    background: #d7f4ff1c;
+
+  }
+
+  .indonutdot {
+    height: 10px;
+    width: 10px;
+    background-color: #1f77b4;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .hldonutdot {
+    height: 10px;
+    width: 10px;
+    background-color: #9467bd;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .cmdonutdot {
+    height: 10px;
+    width: 10px;
+    background-color: #2ca02c;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .cndonutdot {
+    height: 10px;
+    width: 10px;
+    background-color: #d52628;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .erdonutdot {
+    height: 10px;
+    width: 10px;
+    background-color: #8c564b;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .imdonutdot {
+    height: 10px;
+    width: 10px;
+    background-color: #ff7f0e;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+
+/*Styling for the lines connecting the labels to the slices*/
+polyline{
+    opacity: .3;
+    stroke: black;
+    stroke-width: 2px;
+    fill: none;
+    shape-rendering: geometricPrecision;
+}
+
+/* styling for the donut slices*/
+#donut-charts > path {
+    shape-rendering: geometricPrecision;
+}
+
+/* Make the percentage on the text labels bold*/
+.labelName tspan {
+    font-style: normal;
+    font-weight: 700;
+}
+
+/* In biology we generally italicise species names. */
+.labelName {
+    font-size: 0.8em;
+    font-style: italic;
+}
+
+.center-txt{
+  font-size: 0.65em;
+}
+
+.legend{
+  font-size: 0.65em;
+}
+
+#play-button {
+      display: block;
+      position: relative;
+      top: -60px;
+      left: 50px;
+      background: #f08080;
+      padding-right: 26px;
+      border-radius: 3px;
+      border: none;
+      color: white;
+      margin: 0;
+      padding: 0 12px;
+      width: 60px;
+      cursor: pointer;
+      height: 30px;
+    }
+
+    #play-button:hover {
+      background-color: #696969;
+    }    
+    
+    .ticks {
+      font-size: 10px;
+    }
+
+    .track,
+    .track-inset,
+    .track-overlay {
+      stroke-linecap: round;
+    }
+
+    .track {
+      stroke: #000;
+      stroke-opacity: 0.3;
+      stroke-width: 10px;
+    }
+
+    .track-inset {
+      stroke: #dcdcdc;
+      stroke-width: 8px;
+    }
+
+    .track-overlay {
+      pointer-events: stroke;
+      stroke-width: 50px;
+      stroke: transparent;
+      cursor: crosshair;
+    
+    }
+
+    .handle {
+      fill: #fff;
+      stroke: #000;
+      stroke-opacity: 0.5;
+      stroke-width: 1.25px;
+    }
+
+
+

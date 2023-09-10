@@ -1,0 +1,158 @@
+/*Primary Chart*/
+
+/*Nested divs for responsiveness*/
+.chart-wrapperD {
+    max-width: 800px;  /*Overwritten by the JS*/
+    min-width: 304px;
+    margin-bottom: 8px;
+  //  background-color: #FAF7F7;
+}
+.chart-wrapperD .inner-wrapper {
+    position: relative;
+    padding-bottom: 50%; /*Overwritten by the JS*/
+    width: 100%;
+}
+.chart-wrapperD .outer-box {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.chart-wrapperD .inner-box {
+    width: 100%;
+    height: 100%;
+}
+
+.chart-wrapperD text {
+  font-family: 'Arial Narrow';
+  font-size: 11px;
+}
+
+.chart-wrapperD .axis path,
+.chart-wrapperD .axis line {
+    fill: none;
+    stroke: #888;
+    stroke-width: 2px;
+    shape-rendering: crispEdges;
+}
+
+.chart-wrapperD .y.axis .tick line {
+    stroke: lightgrey;
+    opacity: 0.6;
+    stroke-dasharray: 2,1;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+
+}
+
+.chart-wrapperD .x.axis .domain {
+  display: none;
+}
+
+.chart-wrapperD div.tooltip {
+    position: absolute;
+    text-align: left;
+    padding: 5px;
+    font: 11px 'Arial Narrow';
+    background: lightcyan;
+    border: 0px;
+    border-radius: 1px;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+/*Box Plot*/
+.chart-wrapperD .box-plot .box {
+    fill-opacity: 0.4;
+    stroke-width: 2;
+}
+.chart-wrapperD .box-plot line {
+    stroke-width: 2px;
+}
+.chart-wrapperD .box-plot circle {
+    fill: white;
+    stroke: black;
+}
+
+.chart-wrapperD .box-plot .median {
+    stroke: black;
+}
+
+.chart-wrapperD .box-plot circle.median {
+    /*the script makes the circles the same color as the box, you can override this in the js*/
+    fill: white !important;
+}
+
+.chart-wrapperD .box-plot .mean {
+    stroke: white;
+    stroke-dasharray: 2,1;
+    stroke-width: 1px;
+}
+
+@media (max-width:500px){
+    .chart-wrapperD .box-plot circle {display: none;}
+}
+
+/*Violin Plot*/
+
+.chart-wrapperD .violin-plot .area {
+    shape-rendering: geometricPrecision;
+    opacity: 0.4;
+}
+
+.chart-wrapperD .violin-plot .line {
+    fill: none;
+    stroke-width: 2px;
+    shape-rendering: geometricPrecision;
+}
+
+/*Notch Plot*/
+.chart-wrapperD .notch-plot .notch {
+    fill-opacity: 0.4;
+    stroke-width: 2;
+}
+
+/* Point Plots*/
+.chart-wrapperD .points-plot .point {
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.chart-wrapperD .metrics-lines {
+    stroke-width: 1px;
+    stroke-dasharray: 4;
+}
+
+.chart-wrapperD .metrics-area {
+    stroke-width: 1px;
+    //stroke-dasharray: 4;
+}
+
+.chart-wrapperD .metrics-area .label {
+    font-size: 8px;
+    fill: #666;
+}
+
+.chart-wrapperD .metrics-area .area {
+        fill: #eaeaea;
+        opacity: 0.5;
+}
+
+/* Non-Chart Styles for demo*/
+.chart-options  {
+    min-width: 200px;
+    font-size: 13px;
+    font-family: sans-serif;
+}
+.chart-options button {
+    margin: 3px;
+    padding: 3px;
+    font-size: 12px;
+}
+.chart-options p {
+    display: inline;
+}
+@media (max-width:500px){
+    .chart-options p {display: block;}
+}
