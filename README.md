@@ -1,6 +1,6 @@
 # LearnerFlow Dashboard
 
-LearnerFlow is a visual analytics interface designed for educators to explore usage patterns in learning materials. This version of the dashboard is currently configured to work with CSV files. The dashboard offers the following features:
+LearnerFlow is a visual analytics interface designed for educators to explore usage patterns in learning materials. This version of the dashboard is repurposed to run on a local web-server. The dashboard offers the following features:
 
 ## Features:
 
